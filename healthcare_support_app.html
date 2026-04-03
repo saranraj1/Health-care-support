@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MedReach — Healthcare Support Portal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --mint: #e6f9f2;
+      --mint-dark: #00a86b;
+      --mint-deep: #006644;
+      --cream: #fdf8f0;
+      --charcoal: #1a1a2e;
+      --warm-gray: #f5f3ef;
+      --accent: #ff6b6b;
+      --accent2: #ffd166;
+      --border: rgba(0, 0, 0, 0.08);
+      --text: #1a1a2e;
+      --text-muted: #6b7280;
+      --shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* NAV */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px;
+      color: var(--mint-deep);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-dot {
+      width: 10px;
+      height: 10px;
+      background: var(--mint-dark);
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 4px;
+    }
+
+    .nav-tab {
+      padding: 6px 16px;
+      border-radius: 20px;
+      border: none;
+      background: transparent;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .nav-tab.active {
+      background: var(--charcoal);
+      color: #fff;
+    }
+
+    .nav-tab:hover:not(.active) {
+      background: var(--warm-gray);
+      color: var(--text);
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #0a2e1f 0%, #1a4731 50%, #0d3324 100%);
+      color: #fff;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      background: rgba(0, 168, 107, 0.15);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -40px;
+      left: -40px;
+      width: 180px;
+      height: 180px;
+      background: rgba(255, 209, 102, 0.1);
+      border-radius: 50%;
+    }
+
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: .75rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: #a8e6cf;
+    }
+
+    .hero p {
+      font-size: 15px;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    .hero-badges {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* MAIN */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* SECTIONS */
+    .section {
+      display: none;
+      animation: fadeIn .3s ease;
+    }
+
+    .section.visible {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px)
+      }
+
+      to {
+        opacity: 1;
+        transform: none
+      }
+    }
+
+    /* CARDS */
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .card-icon.green {
+      background: var(--mint);
+    }
+
+    .card-icon.red {
+      background: #fff0f0;
+    }
+
+    .card-icon.blue {
+      background: #eff6ff;
+    }
+
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+    }
+
+    .card-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    /* FORM */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media(max-width:600px) {
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .form-group.full {
+      grid-column: 1/-1;
+    }
+
+    label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    input,
+    select,
+    textarea {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      padding: 10px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      outline: none;
+      background: #fff;
+      color: var(--text);
+      transition: border .2s, box-shadow .2s;
+      width: 100%;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--mint-dark);
+      box-shadow: 0 0 0 3px rgba(0, 168, 107, 0.1);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .radio-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all .2s;
+    }
+
+    .radio-label:has(input:checked) {
+      border-color: var(--mint-dark);
+      background: var(--mint);
+      color: var(--mint-deep);
+    }
+
+    .radio-label input {
+      display: none;
+    }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 24px;
+      border-radius: 10px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-primary {
+      background: var(--charcoal);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #2d2d4a;
+      transform: translateY(-1px);
+    }
+
+    .btn-success {
+      background: var(--mint-dark);
+      color: #fff;
+    }
+
+    .btn-success:hover {
+      background: var(--mint-deep);
+      transform: translateY(-1px);
+    }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--mint-dark);
+      border: 1px solid var(--mint-dark);
+    }
+
+    .btn-outline:hover {
+      background: var(--mint);
+    }
+
+    /* SUCCESS BANNER */
+    .success-banner {
+      background: var(--mint);
+      border: 1px solid #b2e8cf;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1rem;
+      font-size: 14px;
+      color: var(--mint-deep);
+      font-weight: 500;
+    }
+
+    .success-banner.show {
+      display: flex;
+    }
+
+    /* CHATBOT */
+    .chat-wrap {
+      background: #fff;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #0a2e1f, #1a4731);
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-avatar {
+      width: 40px;
+      height: 40px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .chat-title {
+      color: #fff;
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .chat-status {
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 12px;
+    }
+
+    .chat-status span {
+      color: #a8e6cf;
+    }
+
+    .chat-msgs {
+      height: 380px;
+      overflow-y: auto;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: var(--warm-gray);
+    }
+
+    .msg {
+      display: flex;
+      gap: 8px;
+      max-width: 85%;
+    }
+
+    .msg.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .msg-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .msg.bot .msg-bubble {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-bottom-left-radius: 4px;
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--charcoal);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+
+    .msg-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--mint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0;
+    }
+
+    .msg.user .msg-avatar {
+      background: #e8e6ff;
+    }
+
+    .quick-chips {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: .75rem 1.25rem;
+      border-top: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .chip {
+      padding: 5px 12px;
+      background: var(--warm-gray);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .chip:hover {
+      background: var(--mint);
+      border-color: var(--mint-dark);
+      color: var(--mint-deep);
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      padding: .75rem 1rem;
+      border-top: 1px solid var(--border);
+      background: #fff;
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      border-radius: 10px;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+      padding: 10px 14px;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ccc;
+      animation: bounce .9s infinite;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: .15s
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: .3s
+    }
+
+    @keyframes bounce {
+
+      0%,
+      80%,
+      100% {
+        transform: scale(1)
+      }
+
+      40% {
+        transform: scale(1.4)
+      }
+    }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: #fff;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.25rem;
+    }
+
+    .stat-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem;
+      color: var(--charcoal);
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .stat-change {
+      font-size: 11px;
+      color: var(--mint-dark);
+      margin-top: 4px;
+    }
+
+    /* VOLUNTEER SECTION */
+    .volunteer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    @media(max-width:640px) {
+      .volunteer-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    /* SCROLLBAR */
+    .chat-msgs::-webkit-scrollbar {
+      width: 4px
+    }
+
+    .chat-msgs::-webkit-scrollbar-track {
+      background: transparent
+    }
+
+    .chat-msgs::-webkit-scrollbar-thumb {
+      background: #ddd;
+      border-radius: 2px
+    }
+    /* DARK MODE */
+    [data-theme="dark"] { --cream:#0f1117; --warm-gray:#1e1e32; --border:rgba(255,255,255,.09); --text:#e8eaf0; --text-muted:#9ca3af; --shadow:0 2px 20px rgba(0,0,0,.4); --mint:rgba(0,168,107,.1); --mint-dark:#00d480; --mint-deep:#4dffb4; --charcoal:#e8eaf0; }
+    [data-theme="dark"] body { background:#0f1117; color:#e8eaf0; }
+    [data-theme="dark"] nav, [data-theme="dark"] .card, [data-theme="dark"] .sc, [data-theme="dark"] .chat-wrap, [data-theme="dark"] .msg.bot .msg-bubble, [data-theme="dark"] input, [data-theme="dark"] select, [data-theme="dark"] textarea, [data-theme="dark"] .quick-chips, [data-theme="dark"] .chat-input-row { background:#1c1c2e; color:#e8eaf0; border-color:rgba(255,255,255,.09); }
+    [data-theme="dark"] .stat-num { color:#00d480; }
+    [data-theme="dark"] .nav-tab.active { background:#00d480; color:#0f1117; }
+    [data-theme="dark"] .feat, [data-theme="dark"] .tc, [data-theme="dark"] .chat-msgs { background:#252540; }
+    [data-theme="dark"] .chip { background:#252540; color:#e8eaf0; }
+    [data-theme="dark"] .btn-primary { background:#00d480; color:#0f1117; }
+    /* NAV CONTROLS */
+    .nav-controls { display:flex; align-items:center; gap:6px; }
+    .icon-btn { width:32px;height:32px;border-radius:50%;border:1px solid var(--border);background:var(--warm-gray);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s;color:var(--text); }
+    .icon-btn:hover { border-color:var(--mint-dark); }
+    /* TOASTS */
+    #toasts { position:fixed;top:1rem;right:1rem;z-index:9999;display:flex;flex-direction:column;gap:8px; }
+    .toast { background:#fff;border:1px solid var(--border);border-radius:12px;padding:.7rem 1.2rem;font-size:13px;box-shadow:0 4px 20px rgba(0,0,0,.15);display:flex;align-items:center;gap:10px;min-width:240px;animation:slIn .3s ease;color:#1a1a2e; }
+    [data-theme="dark"] .toast { background:#1c1c2e;color:#e8eaf0; }
+    .toast.ok { border-left:4px solid var(--mint-dark); }
+    .toast.err { border-left:4px solid var(--accent); }
+    .toast.info { border-left:4px solid #63b3ed; }
+    @keyframes slIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:none} }
+    /* STATS ANIMATED */
+    .stat-num { color:var(--mint-dark); }
+    /* TESTIMONIALS */
+    .tgrid { display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem; }
+    .tc { background:var(--warm-gray);border-radius:12px;padding:1.2rem;position:relative; }
+    .tc::before { content:'\201C';position:absolute;top:-8px;left:14px;font-size:54px;color:var(--mint-dark);font-family:'DM Serif Display',serif;line-height:1;opacity:.25; }
+    .tc-text { font-size:13px;line-height:1.7;color:var(--text-muted);font-style:italic;margin-bottom:.6rem; }
+    .tc-name { font-size:13px;font-weight:600; }
+    .tc-loc { font-size:11px;color:var(--text-muted); }
+    /* DONATION */
+    .don { background:linear-gradient(135deg,#0a2e1f,#1a4731);border-radius:16px;padding:1.75rem;color:#fff;margin-bottom:1.5rem;position:relative;overflow:hidden; }
+    .don::after { content:'\1F49A';position:absolute;right:2rem;top:50%;transform:translateY(-50%);font-size:5rem;opacity:.08; }
+    .don h3 { font-family:'DM Serif Display',serif;font-size:1.4rem;margin-bottom:.4rem; }
+    .don p { font-size:13px;color:rgba(255,255,255,.7);margin-bottom:1rem; }
+    .don-opts { display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem; }
+    .da { padding:7px 16px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;color:#fff;font-family:'DM Sans',sans-serif; }
+    .da:hover,.da.sel { background:var(--mint-dark);border-color:var(--mint-dark);color:#fff; }
+    .upi-row { display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border-radius:10px;padding:10px 14px; }
+    .upi-id { font-size:13px;font-family:monospace;color:#a8e6cf;flex:1; }
+    /* RESOURCES */
+    .rgrid { display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem; }
+    .rc { background:#fff;border-radius:12px;border:1px solid var(--border);overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s; }
+    [data-theme="dark"] .rc { background:#1c1c2e; }
+    .rc:hover { transform:translateY(-3px);box-shadow:0 8px 30px rgba(0,0,0,.1); }
+    .rc-hd { padding:1.1rem;display:flex;align-items:center;gap:11px; }
+    .rc-ico { width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0; }
+    .rc-title { font-weight:600;font-size:14px; }
+    .rc-tag { font-size:11px;color:var(--text-muted);margin-top:2px; }
+    .rc-body { padding:0 1.1rem 1.1rem;font-size:13px;line-height:1.7;color:var(--text-muted);display:none; }
+    .rc.open .rc-body { display:block; }
+    .rc-arrow { margin-left:auto;color:var(--text-muted);font-size:11px;transition:transform .2s; }
+    .rc.open .rc-arrow { transform:rotate(180deg); }
+    /* CLINICS */
+    .cl-search { display:flex;gap:8px;margin-bottom:1.25rem; }
+    .cl-search input { flex:1; }
+    .clgrid { display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem; }
+    .clc { background:#fff;border-radius:12px;border:1px solid var(--border);padding:1.2rem;transition:transform .2s; }
+    [data-theme="dark"] .clc { background:#1c1c2e; }
+    .clc:hover { transform:translateY(-2px); }
+    .cl-name { font-weight:700;font-size:15px;margin-bottom:.3rem; }
+    .cl-type { display:inline-block;font-size:11px;background:var(--mint);color:var(--mint-deep);padding:2px 8px;border-radius:20px;margin-bottom:.6rem;font-weight:600; }
+    .cl-info { font-size:13px;color:var(--text-muted);line-height:1.8; }
+    /* FOOTER */
+    footer { background:#fff;border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center; }
+    [data-theme="dark"] footer { background:#1c1c2e; }
+    .em-row { display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-bottom:.75rem; }
+    .em-badge { padding:5px 12px;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.2);border-radius:20px;font-size:13px;font-weight:600;color:var(--accent); }
+    .foot-note { font-size:12px;color:var(--text-muted); }
+    /* MOBILE NAV */
+    .mob-nav { display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--border);height:58px;z-index:100;padding:0 .25rem;justify-content:space-around;align-items:center; }
+    [data-theme="dark"] .mob-nav { background:#1c1c2e; }
+    @media(max-width:620px) { .mob-nav{display:flex} .nav-tabs{display:none} main{padding-bottom:4.5rem} }
+    .mn-btn { display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;padding:4px;cursor:pointer;border:none;background:transparent;font-family:'DM Sans',sans-serif;color:var(--text-muted);font-size:9px;font-weight:500;transition:color .2s; }
+    .mn-btn.active { color:var(--mint-dark); }
+    .mn-ico { font-size:18px; }
+    /* VALIDATION */
+    input.err,select.err,textarea.err { border-color:var(--accent)!important; }
+    .ferr { font-size:11px;color:var(--accent);margin-top:2px;display:none; }
+    .ferr.show { display:block; }
+    /* FILE UPLOAD */
+    .fup { border:2px dashed var(--border);border-radius:10px;padding:1.25rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--warm-gray); }
+    .fup:hover { border-color:var(--mint-dark);background:var(--mint); }
+    .fup input[type=file] { display:none; }
+    .fn-name { font-size:12px;color:var(--mint-dark);margin-top:.4rem;font-weight:600; }
+    /* STEP INDICATOR */
+    .step-ind { display:flex;align-items:center;margin-bottom:1.5rem; }
+    .si { display:flex;flex-direction:column;align-items:center;flex:1;position:relative; }
+    .si:not(:last-child)::after { content:'';position:absolute;top:15px;left:50%;width:100%;height:2px;background:var(--border);z-index:0;transition:background .4s; }
+    .si.done:not(:last-child)::after { background:var(--mint-dark); }
+    .si-circle { width:30px;height:30px;border-radius:50%;background:var(--warm-gray);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--text-muted);z-index:1;transition:all .3s; }
+    .si.active .si-circle { background:var(--charcoal);border-color:var(--charcoal);color:#fff; }
+    [data-theme="dark"] .si.active .si-circle { background:var(--mint-dark);border-color:var(--mint-dark);color:#0f1117; }
+    .si.done .si-circle { background:var(--mint-dark);border-color:var(--mint-dark);color:#fff; }
+    .si-label { font-size:10px;color:var(--text-muted);margin-top:3px;font-weight:500; }
+    .si.active .si-label { color:var(--text);font-weight:700; }
+    .fstep { display:none; }
+    .fstep.active { display:block;animation:fadeIn .3s ease; }
+    .g2 { display:grid;grid-template-columns:1fr 1fr;gap:1rem; }
+    @media(max-width:600px){.g2{grid-template-columns:1fr}}
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <div class="logo"><span class="logo-dot"></span>MedReach</div>
+    <div class="nav-tabs">
+      <button class="nav-tab active" onclick="showTab('home',this)">Home</button>
+      <button class="nav-tab" onclick="showTab('patient',this)">Patient</button>
+      <button class="nav-tab" onclick="showTab('volunteer',this)">Volunteer</button>
+      <button class="nav-tab" onclick="showTab('resources',this)">📚 Resources</button>
+      <button class="nav-tab" onclick="showTab('clinics',this)">🗺 Clinics</button>
+      <button class="nav-tab" onclick="showTab('chat',this)">AI Assistant</button>
+    </div>
+    <div class="nav-controls">
+      <button class="icon-btn" id="theme-btn" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
+    </div>
+  </nav>
+
+  <div class="hero">
+    <h1>Healthcare for <em>everyone,</em><br>everywhere.</h1>
+    <p>MedReach connects underserved communities with medical volunteers, health resources, and compassionate support.
+    </p>
+    <div class="hero-badges">
+      <span class="badge">🏥 NGO Platform</span>
+      <span class="badge">🤖 AI-Powered FAQ</span>
+      <span class="badge">🌿 Free for all</span>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- HOME -->
+    <div id="home" class="section visible">
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-num">2,847</div>
+          <div class="stat-label">Patients supported</div>
+          <div class="stat-change">↑ 12% this month</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">384</div>
+          <div class="stat-label">Active volunteers</div>
+          <div class="stat-change">↑ 8 joined this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">47</div>
+          <div class="stat-label">Clinics partnered</div>
+          <div class="stat-change">3 new this quarter</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">24/7</div>
+          <div class="stat-label">AI chatbot uptime</div>
+          <div class="stat-change">Always available</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon green">🌱</div>
+          <div>
+            <div class="card-title">How MedReach works</div>
+            <div class="card-sub">Three ways we help</div>
+          </div>
+        </div>
+        <div class="volunteer-grid" style="grid-template-columns:1fr 1fr 1fr">
+          <div style="padding:1rem;background:var(--warm-gray);border-radius:12px;text-align:center">
+            <div style="font-size:2rem;margin-bottom:.5rem">🩺</div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:.4rem">Patient Support</div>
+            <div style="font-size:13px;color:var(--text-muted)">Register for health assistance, medications, and
+              clinical visits</div>
+          </div>
+          <div style="padding:1rem;background:var(--warm-gray);border-radius:12px;text-align:center">
+            <div style="font-size:2rem;margin-bottom:.5rem">🤝</div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:.4rem">Volunteer Hub</div>
+            <div style="font-size:13px;color:var(--text-muted)">Doctors, nurses & health workers offer their expertise
+            </div>
+          </div>
+          <div style="padding:1rem;background:var(--warm-gray);border-radius:12px;text-align:center">
+            <div style="font-size:2rem;margin-bottom:.5rem">🤖</div>
+            <div style="font-weight:600;font-size:14px;margin-bottom:.4rem">AI FAQ Bot</div>
+            <div style="font-size:13px;color:var(--text-muted)">Get instant answers to health, appointment & program
+              questions</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><div class="card-icon" style="background:rgba(255,209,102,.15)">💬</div><div><div class="card-title">What our community says</div><div class="card-sub">Stories from real patients &amp; volunteers</div></div></div>
+        <div class="tgrid">
+          <div class="tc"><div class="tc-text">"MedReach connected me to a specialist when I had nowhere else to turn. Simple process, genuine care."</div><div class="tc-name">Meena S.</div><div class="tc-loc">📍 Madurai, Tamil Nadu</div></div>
+          <div class="tc"><div class="tc-text">"As a volunteer, I've seen how this platform amplifies our reach. We now serve 10x more patients every month."</div><div class="tc-name">Dr. Arjun P.</div><div class="tc-loc">📍 Chennai, Tamil Nadu</div></div>
+          <div class="tc"><div class="tc-text">"The AI chatbot answered all my questions at midnight when I was worried about my mother. It was a lifesaver."</div><div class="tc-name">Ravi K.</div><div class="tc-loc">📍 Coimbatore, Tamil Nadu</div></div>
+        </div>
+      </div>
+
+      <div class="don">
+        <h3>Support our mission 💚</h3>
+        <p>Every rupee goes directly to patient care, medicines, and volunteer training.</p>
+        <div class="don-opts">
+          <button class="da sel" onclick="selAmt(this)">₹100</button>
+          <button class="da" onclick="selAmt(this)">₹250</button>
+          <button class="da" onclick="selAmt(this)">₹500</button>
+          <button class="da" onclick="selAmt(this)">₹1000</button>
+        </div>
+        <div class="upi-row"><span class="upi-id">medreach@upi</span><button class="btn btn-success btn-sm" onclick="copyUPI()">📋 Copy UPI ID</button></div>
+      </div>
+
+    </div>
+
+    <!-- PATIENT FORM -->
+    <div id="patient" class="section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon red">🩺</div>
+          <div>
+            <div class="card-title">Patient Support Request</div>
+            <div class="card-sub">Fill this form to access free healthcare services</div>
+          </div>
+        </div>
+
+        <div id="patient-success" class="success-banner">✅ Your request has been submitted! A coordinator will contact
+          you within 24 hours.</div>
+        <form onsubmit="event.preventDefault(); submitForm('patient-success'); this.reset();">
+          <div class="form-grid">
+            <div class="form-group"><label>First Name</label><input type="text" placeholder="Arjun" id="p-fname" required /></div>
+            <div class="form-group"><label>Last Name</label><input type="text" placeholder="Sharma" required /></div>
+            <div class="form-group"><label>Age</label><input type="number" placeholder="35" min="0" max="120" required /></div>
+            <div class="form-group"><label>Gender</label>
+              <select required>
+                <option value="">Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Non-binary</option>
+                <option>Prefer not to say</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Phone Number</label><input type="tel" placeholder="+91 99999 00000" required /></div>
+            <div class="form-group"><label>District / City</label><input type="text" placeholder="Madurai" required /></div>
+            <div class="form-group full">
+              <label>Type of support needed</label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="support" value="general" required/>General Consultation</label>
+                <label class="radio-label"><input type="radio" name="support" value="medicine" required/>Medicines / Pharmacy</label>
+                <label class="radio-label"><input type="radio" name="support" value="mental" required/>Mental Health</label>
+                <label class="radio-label"><input type="radio" name="support" value="maternal" required/>Maternal Care</label>
+                <label class="radio-label"><input type="radio" name="support" value="other" required/>Other</label>
+              </div>
+            </div>
+            <div class="form-group full"><label>Describe your situation (optional)</label><textarea placeholder="Please share any details that will help us assist you better..."></textarea></div>
+            <div class="form-group full"><label>How did you hear about us?</label>
+              <select required>
+                <option value="">Select</option>
+                <option>Community health worker</option>
+                <option>Social media</option>
+                <option>Friend / family</option>
+                <option>Clinic referral</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem;display:flex;gap:10px;align-items:center">
+            <button type="submit" class="btn btn-success">Submit Request →</button>
+            <span style="font-size:12px;color:var(--text-muted)">Your information is kept confidential</span>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- VOLUNTEER FORM -->
+    <div id="volunteer" class="section">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-icon blue">🤝</div>
+          <div>
+            <div class="card-title">Volunteer Registration</div>
+            <div class="card-sub">Join our network of healthcare professionals</div>
+          </div>
+        </div>
+        <div id="vol-success" class="success-banner">🎉 Welcome to MedReach! We'll review your application and reach out
+          within 48 hours.</div>
+        <form onsubmit="event.preventDefault(); submitForm('vol-success'); this.reset();">
+          <div class="form-grid">
+            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Dr. Priya Nair" required /></div>
+            <div class="form-group"><label>Email</label><input type="email" placeholder="priya@example.com" required /></div>
+            <div class="form-group"><label>Phone</label><input type="tel" placeholder="+91 88888 11111" required /></div>
+            <div class="form-group"><label>City</label><input type="text" placeholder="Chennai" required /></div>
+            <div class="form-group full">
+              <label>Professional Role</label>
+              <div class="radio-group">
+                <label class="radio-label"><input type="radio" name="role" value="doctor" required />Doctor (MBBS/MD)</label>
+                <label class="radio-label"><input type="radio" name="role" value="nurse" required />Nurse / ANM</label>
+                <label class="radio-label"><input type="radio" name="role" value="paramedic" required />Paramedic</label>
+                <label class="radio-label"><input type="radio" name="role" value="counselor" required />Counselor</label>
+                <label class="radio-label"><input type="radio" name="role" value="pharmacy" required />Pharmacist</label>
+                <label class="radio-label"><input type="radio" name="role" value="student" required />Medical Student</label>
+              </div>
+            </div>
+            <div class="form-group"><label>Years of Experience</label><input type="number" placeholder="5" min="0" required /></div>
+            <div class="form-group"><label>Available hours / week</label>
+              <select required>
+                <option value="">Select</option>
+                <option>1–5 hours</option>
+                <option>5–10 hours</option>
+                <option>10–20 hours</option>
+                <option>20+ hours</option>
+              </select>
+            </div>
+            <div class="form-group full"><label>Areas of expertise</label><input type="text" placeholder="e.g. Pediatrics, General Medicine, Mental Health..." required /></div>
+            <div class="form-group full"><label>Motivation / Why you want to volunteer</label><textarea placeholder="Share what drives you to help..." required></textarea></div>
+          </div>
+          <div style="margin-top:1.5rem">
+            <button type="submit" class="btn btn-primary">Register as Volunteer →</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    </div>
+
+    <!-- RESOURCES -->
+    <div id="resources" class="section">
+      <div class="card">
+        <div class="card-header"><div class="card-icon green">📚</div><div><div class="card-title">Health Resource Library</div><div class="card-sub">Reliable guides for common health topics</div></div></div>
+        <input placeholder="🔍 Search resources..." oninput="filterRes(this.value)" style="margin-bottom:1.25rem"/>
+        <div class="rgrid" id="res-grid"></div>
+      </div>
+    </div>
+
+    <!-- CLINICS -->
+    <div id="clinics" class="section">
+      <div class="card">
+        <div class="card-header"><div class="card-icon blue">🗺</div><div><div class="card-title">Find a Partner Clinic</div><div class="card-sub">MedReach-affiliated clinics across India</div></div></div>
+        <div class="cl-search"><input id="cl-in" placeholder="🔍 Search by city or clinic name..." oninput="filterClinics(this.value)"/></div>
+        <div class="clgrid" id="cl-grid"></div>
+      </div>
+    </div>
+
+    <!-- AI CHATBOT -->
+    <div id="chat" class="section">
+      <div class="chat-wrap">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div>
+            <div class="chat-title">MedReach AI Assistant</div>
+            <div class="chat-status">Powered by Groq · <span>Online</span></div>
+          </div>
+        </div>
+        <div class="chat-msgs" id="chat-msgs"></div>
+        <div class="quick-chips" id="chips">
+          <span class="chip" onclick="sendChip(this)">How do I register?</span>
+          <span class="chip" onclick="sendChip(this)">Is this service free?</span>
+          <span class="chip" onclick="sendChip(this)">What conditions do you cover?</span>
+          <span class="chip" onclick="sendChip(this)">How to become a volunteer?</span>
+          <span class="chip" onclick="sendChip(this)">Emergency contacts</span>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="chat-in" placeholder="Ask about services, registration, health resources…"
+            onkeydown="if(event.key==='Enter')sendMsg()" />
+          <button class="btn btn-outline btn-sm" id="mic-btn" onclick="startVoice()" title="Voice Dictation">🎤</button>
+          <button class="btn btn-outline btn-sm" onclick="clearChat()" title="Clear chat">🗑</button>
+          <button class="btn btn-success btn-sm" onclick="sendMsg()">Send</button>
+        </div>
+      </div>
+      <div
+        style="margin-top:1rem;padding:1rem;background:var(--mint);border-radius:12px;font-size:13px;color:var(--mint-deep);border:1px solid #b2e8cf">
+        <strong>Note:</strong> This AI assistant answers FAQs about MedReach services. For medical emergencies, call
+        <strong>108</strong>. For mental health support, call <strong>iCall: 9152987821</strong>.
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="em-row">
+      <span class="em-badge">🚨 Emergency: 108</span>
+      <span class="em-badge">🧠 iCall: 9152987821</span>
+      <span class="em-badge">💊 Vandrevala: 1860-2662-345</span>
+    </div>
+    <div class="foot-note">© 2026 MedReach NGO &nbsp;·&nbsp; All services are 100% free &nbsp;·&nbsp; Not a substitute for medical advice &nbsp;·&nbsp; Confidential</div>
+  </footer>
+
+  <nav class="mob-nav">
+    <button class="mn-btn active" data-id="home" onclick="showTab('home',this)"><span class="mn-ico">🏠</span>Home</button>
+    <button class="mn-btn" data-id="patient" onclick="showTab('patient',this)"><span class="mn-ico">🩺</span>Patient</button>
+    <button class="mn-btn" data-id="volunteer" onclick="showTab('volunteer',this)"><span class="mn-ico">🤝</span>Volunteer</button>
+    <button class="mn-btn" data-id="resources" onclick="showTab('resources',this)"><span class="mn-ico">📚</span>Resources</button>
+    <button class="mn-btn" data-id="clinics" onclick="showTab('clinics',this)"><span class="mn-ico">🗺</span>Clinics</button>
+    <button class="mn-btn" data-id="chat" onclick="showTab('chat',this)"><span class="mn-ico">🤖</span>AI Chat</button>
+  </nav>
+
+  <div id="toasts"></div>
+
+  <script>
+    const SYSTEM_PROMPT = `You are MedReach AI Assistant, a compassionate and knowledgeable healthcare support chatbot for a non-profit NGO called MedReach that provides free healthcare services to underserved communities, primarily in India.
+
+You help users with:
+1. Patient registration and support requests
+2. Volunteer sign-up and onboarding information
+3. FAQs about MedReach's services (general consultations, medicines, maternal care, mental health)
+4. Health information and guidance (always recommend consulting a real doctor for medical advice)
+5. Emergency resources and hotlines
+
+Key facts about MedReach:
+- All services are 100% free
+- Patients can register via the Patient tab on the website
+- Volunteers can register via the Volunteer tab (doctors, nurses, counselors, pharmacists welcome)
+- Emergency: call 108 in India
+- Mental health support: iCall 9152987821
+- Response time for patient requests: within 24 hours
+- Volunteer applications reviewed within 48 hours
+
+Always be warm, concise, and empathetic. Keep responses under 120 words. If someone seems in distress, gently point them to emergency services. Never give specific medical diagnoses. End each response with a helpful follow-up nudge or offer.`;
+
+    function showTab(id, btn) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+      document.getElementById(id).classList.add('visible');
+      document.querySelectorAll('.nav-tab').forEach(t =>
+        t.classList.toggle('active', t.getAttribute('onclick')?.includes("'" + id + "'"))
+      );
+      document.querySelectorAll('.mn-btn').forEach(b =>
+        b.classList.toggle('active', b.getAttribute('data-id') === id)
+      );
+      if (id === 'chat') {
+        const loaded = loadChatLocal();
+        if (!loaded && document.getElementById('chat-msgs').children.length === 0)
+          addBotMsg("👋 Hi! I'm the MedReach AI Assistant. I can help you learn about our free healthcare services, registration, or connect you to resources. What would you like to know?");
+      }
+    }
+
+    function submitForm(bannerId) {
+      const banner = document.getElementById(bannerId);
+      banner.classList.add('show');
+      setTimeout(() => banner.classList.remove('show'), 6000);
+    }
+
+    const msgs = [];
+    // Clear old Gemini-format cached messages (they used `parts` not `content`)
+    (function() {
+      const m = localStorage.getItem('mr_chat_msgs');
+      if (m) { try { const p = JSON.parse(m); if (p[0]?.parts) { localStorage.removeItem('mr_chat_msgs'); localStorage.removeItem('mr_chat_html'); } } catch(e){} }
+    })();
+
+
+    function addBotMsg(text) {
+      const c = document.getElementById('chat-msgs');
+      const div = document.createElement('div');
+      div.className = 'msg bot';
+      div.innerHTML = `<div class="msg-avatar">🏥</div><div class="msg-bubble">${text}</div>`;
+      c.appendChild(div);
+      c.scrollTop = c.scrollHeight;
+    }
+
+    function clearChat() {
+      if (!confirm('Clear chat history?')) return;
+      document.getElementById('chat-msgs').innerHTML = '';
+      msgs.length = 0;
+      localStorage.removeItem('mr_chat_msgs');
+      localStorage.removeItem('mr_chat_html');
+      addBotMsg("👋 Chat cleared! How can I help you?");
+    }
+
+    function addUserMsg(text) {
+      const c = document.getElementById('chat-msgs');
+      const div = document.createElement('div');
+      div.className = 'msg user';
+      div.innerHTML = `<div class="msg-avatar">👤</div><div class="msg-bubble">${text}</div>`;
+      c.appendChild(div);
+      c.scrollTop = c.scrollHeight;
+    }
+
+    function showTyping() {
+      const c = document.getElementById('chat-msgs');
+      const div = document.createElement('div');
+      div.className = 'msg bot'; div.id = 'typing';
+      div.innerHTML = `<div class="msg-avatar">🏥</div><div class="msg-bubble"><div class="typing-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>`;
+      c.appendChild(div); c.scrollTop = c.scrollHeight;
+    }
+
+    function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+
+    function sendChip(el) {
+      const text = el.textContent;
+      sendMsgText(text);
+    }
+
+    // ── VOICE INPUT (Web Speech API) ──
+    function startVoice() {
+      const Speech = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!Speech) return toast("Voice typing not supported in this browser.", "err");
+
+      const r = new Speech();
+      r.lang = 'en-IN'; // Indian English
+      r.interimResults = false;
+      const btn = document.getElementById('mic-btn');
+      const inp = document.getElementById('chat-in');
+
+      r.onstart = () => {
+        btn.textContent = '🔴';
+        btn.style.boxShadow = '0 0 10px rgba(255,107,107,0.5)';
+        inp.placeholder = "Listening... Speak now...";
+      };
+
+      r.onresult = (e) => {
+        const txt = e.results[0][0].transcript;
+        inp.value = (inp.value + " " + txt).trim();
+      };
+
+      r.onend = () => {
+        btn.textContent = '🎤';
+        btn.style.boxShadow = 'none';
+        inp.placeholder = "Ask about services, registration, health resources…";
+      };
+
+      r.onerror = (e) => {
+        toast("Microphone error: " + e.error, "err");
+      };
+
+      try { r.start(); } catch(err) { console.error(err); }
+    }
+
+    async function sendMsg() {
+      const input = document.getElementById('chat-in');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      sendMsgText(text);
+    }
+
+    function mdRender(t) {
+      return t
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*(.*?)\*/g, '<em>$1</em>')
+        .replace(/^[-•] (.+)$/gm, '<li style="margin-left:1em">$1</li>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function saveChatLocal() {
+      localStorage.setItem('mr_chat_msgs', JSON.stringify(msgs));
+      localStorage.setItem('mr_chat_html', document.getElementById('chat-msgs').innerHTML);
+    }
+
+    function loadChatLocal() {
+      const m = localStorage.getItem('mr_chat_msgs');
+      const h = localStorage.getItem('mr_chat_html');
+      if (m && h && document.getElementById('chat-msgs').children.length === 0) {
+        msgs.push(...JSON.parse(m));
+        document.getElementById('chat-msgs').innerHTML = h;
+        document.getElementById('chat-msgs').scrollTop = 9999;
+        return true;
+      }
+      return false;
+    }
+
+    async function sendMsgText(text) {
+      addUserMsg(text);
+      msgs.push({ role: 'user', content: text });
+      showTyping();
+
+      const KEY = 'YOUR_API_KEY';
+      const URL = 'https://api.groq.com/openai/v1/chat/completions';
+
+      try {
+        const res = await fetch(URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + KEY
+          },
+          body: JSON.stringify({
+            model: 'llama-3.3-70b-versatile',
+            messages: [
+              { role: 'system', content: SYSTEM_PROMPT },
+              ...msgs
+            ],
+            max_tokens: 300,
+            temperature: 0.7
+          })
+        });
+        const data = await res.json();
+        console.log('Groq response:', data);
+        if (data.error) throw new Error(data.error.message);
+        const reply = data.choices?.[0]?.message?.content;
+        if (!reply) throw new Error('Empty response — please retry.');
+        msgs.push({ role: 'assistant', content: reply });
+        saveChatLocal();
+        removeTyping();
+        addBotMsg(mdRender(reply));
+      } catch (e) {
+        console.error('Groq error:', e);
+        removeTyping();
+        addBotMsg('⚠️ <strong>' + (e.message || 'Connection issue') + '</strong><br>For emergencies dial <strong>108</strong>.');
+      }
+    }
+
+    // ── DARK MODE ──
+    function toggleDark() {
+      const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      document.documentElement.setAttribute('data-theme', dark ? 'light' : 'dark');
+      document.getElementById('theme-btn').textContent = dark ? '🌙' : '☀️';
+      localStorage.setItem('mr_theme', dark ? 'light' : 'dark');
+    }
+    (function() {
+      const t = localStorage.getItem('mr_theme');
+      if (t === 'dark') { document.documentElement.setAttribute('data-theme','dark'); document.getElementById('theme-btn').textContent='☀️'; }
+    })();
+
+
+    // ── TOAST ──
+    function toast(msg, type='ok') {
+      const d = document.createElement('div');
+      d.className = 'toast ' + type;
+      d.textContent = msg;
+      document.getElementById('toasts').appendChild(d);
+      setTimeout(() => { d.style.opacity='0'; d.style.transform='translateX(20px)'; d.style.transition='.3s'; setTimeout(()=>d.remove(),300); }, 3500);
+    }
+
+    // ── ANIMATED COUNTERS ──
+    function runCounters() {
+      document.querySelectorAll('[data-target]').forEach(el => {
+        const target = +el.dataset.target, dur = 1400, step = target/dur*16;
+        let cur = 0;
+        const t = setInterval(() => { cur = Math.min(cur+step, target); el.textContent = Math.floor(cur).toLocaleString(); if(cur>=target) clearInterval(t); }, 16);
+      });
+    }
+    // Add data-target to stat numbers on load
+    window.addEventListener('DOMContentLoaded', () => {
+      const nums = document.querySelectorAll('.stat-num');
+      const targets = [2847, 384, 47];
+      targets.forEach((v,i) => { if(nums[i]) nums[i].dataset.target = v; });
+      runCounters();
+      renderResources();
+      renderClinics();
+    });
+
+    // ── DONATION ──
+    function selAmt(btn) { document.querySelectorAll('.da').forEach(b=>b.classList.remove('sel')); btn.classList.add('sel'); }
+    function copyUPI() { navigator.clipboard?.writeText('medreach@upi').then(()=>toast('✅ UPI ID copied!','info')).catch(()=>toast('UPI: medreach@upi','info')); }
+
+    // ── RESOURCES ──
+    const RESOURCES = [
+      {icon:'🩸',bg:'rgba(239,68,68,.1)',title:'Managing Diabetes',tag:'Chronic Care',body:'Monitor blood sugar regularly. Follow a low-glycemic diet (avoid white rice, sugary drinks). Exercise 30 min daily. Take prescribed medications. Symptoms like frequent urination, excessive thirst, or blurred vision need immediate consultation.'},
+      {icon:'🤰',bg:'rgba(236,72,153,.1)',title:'Maternal Health Guide',tag:'Maternal Care',body:'Attend all antenatal checkups. Take folic acid supplements. Eat iron-rich foods (spinach, lentils). Avoid alcohol and tobacco. Danger signs — heavy bleeding, severe headaches, reduced fetal movement — call 108 immediately.'},
+      {icon:'🧠',bg:'rgba(139,92,246,.1)',title:'Mental Health & Stress',tag:'Mental Wellness',body:'Deep breathing, regular sleep (7-8 hrs), physical exercise, and talking to trusted people all help. For persistent sadness or anxiety, contact iCall: 9152987821. Seeking help is a sign of strength, not weakness.'},
+      {icon:'👶',bg:'rgba(234,179,8,.1)',title:'Child Nutrition (0–5 yrs)',tag:'Pediatrics',body:'Breastfeed exclusively for 6 months. Introduce soft foods at 6 months. Keep vaccines up to date. Signs of malnutrition: low weight, stunted growth, swollen belly. MedReach can connect you with nutrition counselors for free.'},
+      {icon:'💊',bg:'rgba(20,184,166,.1)',title:'Safe Medication Use',tag:'Pharmacy',body:'Never self-medicate with antibiotics. Always complete the full course. Store medicines away from heat and sunlight. Check expiry dates. MedReach volunteers can advise on affordable generic alternatives.'},
+      {icon:'🩹',bg:'rgba(249,115,22,.1)',title:'First Aid Basics',tag:'Emergency',body:'Cuts: clean with water, apply pressure, cover with cloth. Burns: cool under running water 10 min — no toothpaste. Choking: 5 back blows. Unconscious: recovery position + call 108. Stay calm and act fast.'}
+    ];
+    function renderResources(filter='') {
+      const grid = document.getElementById('res-grid');
+      if (!grid) return;
+      const fl = filter.toLowerCase();
+      grid.innerHTML = RESOURCES.filter(r => !fl || r.title.toLowerCase().includes(fl) || r.tag.toLowerCase().includes(fl)).map((r,i) =>
+        `<div class="rc" onclick="toggleRes(this)">
+          <div class="rc-hd"><div class="rc-ico" style="background:${r.bg}">${r.icon}</div><div><div class="rc-title">${r.title}</div><div class="rc-tag">${r.tag}</div></div><span class="rc-arrow">▼</span></div>
+          <div class="rc-body">${r.body}</div>
+        </div>`
+      ).join('');
+    }
+    function toggleRes(el) { el.classList.toggle('open'); }
+    function filterRes(v) { renderResources(v); }
+
+    // ── CLINICS ──
+    const CLINICS = [
+      {name:'MedReach Madurai Centre',city:'Madurai',type:'General',addr:'14, Hospital Road, Anna Nagar',phone:'+91 452 223 0101',hrs:'Mon–Sat, 8am–6pm'},
+      {name:'Chennai Urban Health Clinic',city:'Chennai',type:'Multi-specialty',addr:'87, Anna Salai, Teynampet',phone:'+91 44 2435 5678',hrs:'Mon–Sun, 9am–8pm'},
+      {name:'Coimbatore Care Hub',city:'Coimbatore',type:'Rural Outreach',addr:'23, Avinashi Rd, RS Puram',phone:'+91 422 224 4321',hrs:'Mon–Fri, 8am–5pm'},
+      {name:'Salem District Clinic',city:'Salem',type:'Maternal Care',addr:'7, Omalur Main Rd, Hasthampatti',phone:'+91 427 223 8765',hrs:'Tue–Sun, 9am–6pm'},
+      {name:'Trichy Health Point',city:'Trichy',type:'General',addr:'45, Chathiram Bus Stand Rd',phone:'+91 431 270 1234',hrs:'Mon–Sat, 8am–7pm'},
+      {name:'Vellore Community Clinic',city:'Vellore',type:'Mental Health',addr:'12, Katpadi Rd, Officer\'s Line',phone:'+91 416 222 5566',hrs:'Mon–Fri, 10am–6pm'}
+    ];
+    function renderClinics(filter='') {
+      const grid = document.getElementById('cl-grid');
+      if (!grid) return;
+      const fl = filter.toLowerCase();
+      grid.innerHTML = CLINICS.filter(c => !fl || c.name.toLowerCase().includes(fl) || c.city.toLowerCase().includes(fl)).map(c =>
+        `<div class="clc">
+          <div class="cl-name">${c.name}</div>
+          <span class="cl-type">${c.type}</span>
+          <div class="cl-info">📍 ${c.addr}<br>📞 ${c.phone}<br>🕐 ${c.hrs}</div>
+        </div>`
+      ).join('');
+    }
+    function filterClinics(v) { renderClinics(v); }
+
+  </script>
+</body>
+
+</html>
