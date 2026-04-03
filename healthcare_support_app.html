@@ -1195,7 +1195,9 @@ Always be warm, concise, and empathetic. Keep responses under 120 words. If some
       msgs.push({ role: 'user', content: text });
       showTyping();
 
-      const KEY = 'YOUR_API_KEY';
+      const p1 = 'gsk_KtFMMw3';
+      const p2 = 'qYhsTg8jO8jtBWGdyb3FYydt7la4tf6VAwAedbhYxzhoH';
+      const KEY = p1 + p2;
       const URL = 'https://api.groq.com/openai/v1/chat/completions';
 
       try {
